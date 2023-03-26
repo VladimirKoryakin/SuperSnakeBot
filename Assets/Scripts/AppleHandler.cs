@@ -8,35 +8,66 @@ public class AppleHandler : MonoBehaviour
 {
     public GameObject blockObject;
     public GameObject bodyObject;
+    public static Vector3 currentPosition;
+    public static bool isBotPlaying = false;
     void GenerateRandomPosition()
     {
         int numberOfTries = 1;
         Vector3 newPosition = new Vector3(Random.Range(-9, 10), Random.Range(-4, 5), 0);
-        while (!IsValidPosition(newPosition) && numberOfTries < 1000)
+        currentPosition = newPosition;
+
+        if (isBotPlaying)
         {
-            newPosition = new Vector3(Random.Range(-9, 10), Random.Range(-4, 5), 0);
-            ++numberOfTries;
+            while ((!IsValidPosition(newPosition) ||
+                    (!BotSnakeMover.SearchForApple(BotSnakeMover.headPosition,
+                        BotSnakeMover.body[0].GetComponent<Transform>().position, 1, BotSnakeMover.bodyQueue)))
+                   && numberOfTries < 1000)
+            {
+                newPosition = new Vector3(Random.Range(-9, 10), Random.Range(-4, 5), 0);
+                currentPosition = newPosition;
+                ++numberOfTries;
+            }
+        }
+        else
+        {
+            while ((!IsValidPosition(newPosition) || CountFreeTilesAround(newPosition) < 3) && numberOfTries < 1000)
+            {
+                newPosition = new Vector3(Random.Range(-9, 10), Random.Range(-4, 5), 0);
+                currentPosition = newPosition;
+                ++numberOfTries;
+            }
         }
 
         transform.position = newPosition;
+        currentPosition = newPosition;
+        enabled = true;
     }
 
-    void GenerateRandomBlock()
+    private int CountFreeTilesAround(Vector3 pos)
     {
-        int numberOfTries = 1;
-        Vector3 newPosition = new Vector3(Random.Range(-9, 10), Random.Range(-4, 5), 0);
-        while (!IsValidPosition(newPosition) && numberOfTries < 1000)
+        int res = 0;
+        if (BotSnakeMover.IsPositionFree(pos + Vector3.down))
         {
-            newPosition = new Vector3(Random.Range(-9, 10), Random.Range(-4, 5), 0);
-            ++numberOfTries;
+            res++;
         }
-        
-        Instantiate(blockObject, newPosition, Quaternion.Euler(0, 0, 0));
+        if (BotSnakeMover.IsPositionFree(pos + Vector3.up))
+        {
+            res++;
+        }
+        if (BotSnakeMover.IsPositionFree(pos + Vector3.left))
+        {
+            res++;
+        }
+        if (BotSnakeMover.IsPositionFree(pos + Vector3.right))
+        {
+            res++;
+        }
+
+        return res;
     }
     
-    private bool IsValidPosition(Vector3 pos)
+    public static bool IsValidPosition(Vector3 pos)
     {
-        // var direction = Camera.main.transform.position - pos;
         if (Physics2D.Raycast(pos, new Vector2(1, 0), 0.1f).collider != null)
         {
             Debug.Log("The new position is not free!" + pos.ToString());
@@ -56,10 +87,11 @@ public class AppleHandler : MonoBehaviour
     {
         if (other.gameObject.name == "Head")
         {
-            Debug.Log("An apple is eaten!!!");
-            // SnakeMover.body.Add(Instantiate(bodyObject, SnakeMover.tailPosition, Quaternion.Euler(0, 0, 0)));
+            //Debug.Log("An apple is eaten!!!");
+            // HumanSnakeMover.body.Add(Instantiate(bodyObject, SnakeMover.tailPosition, Quaternion.Euler(0, 0, 0)));
+            enabled = false;
+            Blocks.GenerateRandomBlock();
             GenerateRandomPosition();
-            GenerateRandomBlock();
         }
     }
 }
