@@ -310,18 +310,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1983011759689529857, guid: eca21f3c4f0abe0418ee79b40273a80f, type: 3}
   m_PrefabInstance: {fileID: 902315945}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &767105258
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 767105254}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: df4482f491e205446bc1ee0dd05c2722, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!50 &767105259
 Rigidbody2D:
   serializedVersion: 4
@@ -350,7 +338,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 767105254}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6843415fd7d645388e8543f342b8729c, type: 3}
   m_Name: 
@@ -359,7 +347,7 @@ MonoBehaviour:
   loosingFace: {fileID: 16453878}
   isFinished: 0
   isPaused: 0
-  isActiveSnakeMover: 0
+  isActiveSnakeMover: 1
   bodyObject: {fileID: 6494013041081708010, guid: 31f028a3e38d9ee459f5f756a6bf2271, type: 3}
 --- !u!114 &767105264
 MonoBehaviour:
@@ -377,7 +365,7 @@ MonoBehaviour:
   loosingFace: {fileID: 16453878}
   isFinished: 0
   isPaused: 0
-  isActiveSnakeMover: 1
+  isActiveSnakeMover: 0
   bodyObject: {fileID: 6494013041081708010, guid: 31f028a3e38d9ee459f5f756a6bf2271, type: 3}
 --- !u!1001 &902315945
 PrefabInstance:
